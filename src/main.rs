@@ -18,7 +18,7 @@ fn main() {
     let teams = vec![String::from("Pink"), String::from("Blue")];
     let initial_scores = vec![53, 66];
     // HashMap<_, _> 类型标注是必要的，可以使用下划线占位来忽略键和值的参数类型
-    let scores: HashMap<_, _> = teams.iter().zip(initial_scores.iter()).collect();
+    let mut scores: HashMap<_, _> = teams.iter().zip(initial_scores.iter()).collect();
     println!("Hashmap scores: {:?}", scores);
     println!("teams: {:?}", teams);
     println!("initial_scores: {:?}", initial_scores);
@@ -46,4 +46,38 @@ fn main() {
     for (key, value) in &scores {
         println!("key: {:?}, value: {:?}", key, value);
     }
+
+    // 更新 Hashmap
+    // 已经存在的键，用新值覆盖旧值
+    let binding = String::from("Pink");
+    scores.insert(&binding, &98);
+    println!("Hashmap scores: {:?}", scores);
+
+    // 检查某个特定的键对应的值是否存在，若存在就返回这个值的可变引用，
+    // 如果不存在则将参数作为新值插入并返回新值的可变引用。
+    let binding = String::from("Yellow");
+    let result = scores.entry(&binding).or_insert(&100);
+    println!("Result = {:?}", result);
+    println!("Hashmap scores: {:?}", scores);
+
+    // 删除 Hashmap
+    // 删除键值对
+    scores.remove(&String::from("Blue"));
+    println!("Hashmap scores: {:?}", scores);
+
+    // 清空 Hashmap
+    scores.clear();
+    println!("Hashmap scores: {:?}", scores);
+
+    let text = "hello world wonderful world";
+    let mut map = HashMap::new();
+    // for word in text.split_whitespace() {
+    //     let count = map.entry(word).or_insert(0);
+    //     *count += 1;
+    // }
+    for ch in text.chars() {
+        let count = map.entry(ch).or_insert(0);
+        *count += 1;
+    }
+    println!("{:?}", map);
 }
